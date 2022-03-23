@@ -47,9 +47,7 @@ app.post('/note', (req: Request, res: Response) => {
     let note = new Note(req.body.note)
     notes.push(note)
 
-    res
-        .sendStatus(200)
-        .send('Notatka została dodana')
+    res.status(200).send('Notatka została dodana')
 })
 
 app.get('/note/:id', (req: Request, res: Response) => {
@@ -59,7 +57,7 @@ app.get('/note/:id', (req: Request, res: Response) => {
             .sendStatus(200)
             .send(findNote)
     } else {
-        res.sendStatus(404).send("Nie ma takiej notatki")
+        res.status(404).send("Nie ma takiej notatki")
     }
 })
 
@@ -67,9 +65,9 @@ app.put('/note/:id', (req: Request, res: Response) => {
     let findNote = notes.find(note => note.id === Number(req.params.id))
     if (findNote) {
         findNote = new Note({ ...findNote, ...req.body.note })
-        res.sendStatus(204);
+        res.status(204);
     } else {
-        res.sendStatus(404).send("Nie można edytować notatki")
+        res.status(404).send("Nie można edytować notatki")
     }
 })
 
@@ -77,9 +75,9 @@ app.delete('/note/:id', (req: Request, res: Response) => {
     let findNote = notes.findIndex(note => note.id === Number(req.params.id))
     if (findNote) {
         notes.splice(findNote, 1)
-        res.sendStatus(204).send("Usunięto notatkę")
+        res.status(204).send("Usunięto notatkę")
     } else {
-        res.sendStatus(400).send("Nie można usunąć notatki")
+        res.status(400).send("Nie można usunąć notatki")
     }
 })
 
