@@ -1,0 +1,25 @@
+{
+  "name": "jakub-mizera-pab",
+  "version": "1.0.0",
+  "description": "Projektowanie aplikacji back-endowych",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JakubMizera/Jakub-Mizera-pab.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JakubMizera/Jakub-Mizera-pab/issues"
+  },
+  "homepage": "https://github.com/JakubMizera/Jakub-Mizera-pab#readme",
+  "dependencies": {
+    "@types/node": "^17.0.22",
+    "express": "^4.17.3",
+    "typescript": "^4.6.2"
+  }
+}
