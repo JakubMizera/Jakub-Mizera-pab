@@ -32,15 +32,26 @@ class Note {
 
 }
 
+class Tag {
+    id?: number;
+    name: string;
+
+    constructor(tag: Tag){
+        this.name = tag.name;
+        this.id = Date.now();
+    }
+}
+
 let notes: Note[] = [];
+let tags: Tag[] = [];
 
 notes.push(new Note({ title: "test", content: "testcontent" }))
+tags.push(new Tag({name: "test"}))
 
 
 app.get('/notes', (req: Request, res: Response) => {
     res.send(notes) //js object => json object
 })
-
 
 app.post('/note', (req: Request, res: Response) => {
     //console.log(req.body.note)
@@ -80,5 +91,18 @@ app.delete('/note/:id', (req: Request, res: Response) => {
         res.status(400).send("Nie można usunąć notatki")
     }
 })
+
+
+
+app.get('/tags', (req: Request, res:Response) => {
+    res.send(tags).status(200)
+})
+
+app.post('/tag', (req: Request, res: Response) => {
+    let newTag = new Tag(req.body.tag)
+    tags.push(newTag)
+    res.status(200).send("wysłano tag")
+})
+
 
 app.listen(3000);
