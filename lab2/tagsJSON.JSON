@@ -1,0 +1,26 @@
+[
+    {
+        "name":"home",
+        "id":"76da02fb-b839-44f8-bf77-a737f795af32"
+    },
+    {
+        "name":"chores",
+        "id":"0301ae2d-268e-4c7e-b6b7-b30a3139f3e0"
+    },
+    {
+        "name":"coffee",
+        "id":"c322222f-18b0-4d86-9b8f-2dfbbc570117"
+    },
+    {
+        "name":"social",
+        "id":"57430730-678d-471b-bb2b-6c033756dc6c"
+    },
+    {
+        "name":"science",
+        "id":"3a752933-5210-4352-ac27-b8d8308d817d"
+    },
+    {
+        "name":"geography",
+        "id":"210c5ffa-e290-4051-a625-19fcafcf11da"
+    }
+]
