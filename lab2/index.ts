@@ -93,9 +93,7 @@ app.post('/note', (req: Request, res: Response) => {
 app.get('/note/:id', (req: Request, res: Response) => {
     let findNote = notesList.find(note => note.id === req.params.id)
     if (findNote) {
-        res
-            .sendStatus(200)
-            .send(findNote)
+        res.status(200).send(findNote)
     } else {
         res.status(404).send("Nie ma takiej notatki")
     }
