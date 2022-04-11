@@ -5,9 +5,15 @@ import express from 'express';
 import e, { Request, Response } from "express";
 import { randomUUID } from 'crypto';
 import fs from 'fs';
+
+
 const app = express();
+const bp = require('body-parser')
 
 app.use(express.json());
+
+app.use(bp.json())
+app.use(bp.urlencoded({ extended: true }))
 
 
 class Note {
@@ -66,19 +72,21 @@ app.get('/notesList', (req: Request, res: Response) => {
 
 //dodawanie notatki
 app.post('/note', (req: Request, res: Response) => {
-    //console.log(req.body.note)
-    let note = new Note(req.body.note)
+
+    let note = new Note(req.body)
     notesList.push(note)
-    //
     fs.writeFileSync(notesPath, JSON.stringify(notesList))
 
     
     // jeśli podanych w notatce tagów nie ma na liście, to automatycznie dodajemy nowe tagi do listy.
-    
+    console.log(note.tags)
     if(note.tags !== undefined) {
         for(let i = 0; i < note.tags.length; i++) {
             if(!tags.includes(note.tags[i])){
-                tags.push(note.tags[i])
+                let newTag = new Tag(note.tags[i])
+                //zmienna dla nowego tagu (w srodku tag wpisany w notatce)
+                console.log(newTag)
+                tags.push(newTag)
                 fs.writeFileSync(tagsPath, JSON.stringify(tags))
             }
         }
@@ -143,7 +151,9 @@ app.get('/tags', (req: Request, res:Response) => {
 
 //dodawanie tagu
 app.post('/tag', (req: Request, res: Response) => {
-    let newTag = new Tag(req.body.tag)
+    let newTag = new Tag(req.body)
+    console.log(newTag)
+    console.log(!tags.includes(newTag))
     
     if(!tags.includes(newTag)) {
         tags.push(newTag)
@@ -156,6 +166,7 @@ app.post('/tag', (req: Request, res: Response) => {
 //szukanie tagu po id
 app.get('/tag/:id', (req: Request, res: Response) => {
     let findTag = tags.find(tag => tag.id === req.params.id)
+    // findTag = lista tagów.find(zwraca pierwszy element(tag) którego id jest równe id z req.params )
     if (findTag) {
         console.log(findTag)
         res.status(200).send(findTag)
@@ -165,9 +176,10 @@ app.get('/tag/:id', (req: Request, res: Response) => {
     }
 })
 
-//edytowanie 
+//edytowanie tagów po id
 app.put('/tag/:id', (req: Request, res: Response) => {
     let findTag = tags.find(tag => tag.id === req.params.id)
+    // findTag = lista tagów.find(zwraca pierwszy element(tag) którego id jest równe id z req.params )
     if (findTag) {
         findTag = new Tag({ ...findTag, ...req.body.tags })
         fs.writeFileSync(tagsPath, JSON.stringify(tags))
