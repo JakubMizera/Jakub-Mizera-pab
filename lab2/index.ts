@@ -1,19 +1,11 @@
-// const express = require('express');
-// const app = express();
-
 import express from 'express';
 import e, { Request, Response } from "express";
 import { randomUUID } from 'crypto';
 import fs from 'fs';
 
-
 const app = express();
-const bp = require('body-parser')
-
 app.use(express.json());
 
-app.use(bp.json())
-app.use(bp.urlencoded({ extended: true }))
 
 
 class Note {
