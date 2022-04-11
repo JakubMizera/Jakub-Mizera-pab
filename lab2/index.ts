@@ -88,7 +88,6 @@ app.post('/note', (req: Request, res: Response) => {
     res.status(200).send('Notatka została dodana')
 })
 
-
 //szukanie notatki po id
 app.get('/note/:id', (req: Request, res: Response) => {
     let findNote = notesList.find(note => note.id === req.params.id)
@@ -99,7 +98,7 @@ app.get('/note/:id', (req: Request, res: Response) => {
     }
 })
 
-//edytowanie 
+//edytowanie notatki
 app.put('/note/:id', (req: Request, res: Response) => {
     let findNote = notesList.find(note => note.id === req.params.id)
     if (findNote) {
