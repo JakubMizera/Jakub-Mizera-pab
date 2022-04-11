@@ -1,21 +1,5 @@
 [
     {
-        "title": "Pick up dry cleaning",
-        "content": "This is an example note",
-        "id": "cff65403-8ded-4c7f-bbb6-129062718312",
-        "createDate": "2022-03-30T10:09:59.162Z",
-        "tags": [
-            {
-                "name": "home",
-                "id": "76da02fb-b839-44f8-bf77-a737f795af32"
-            },
-            {
-                "name": "chores",
-                "id": "0301ae2d-268e-4c7e-b6b7-b30a3139f3e0"
-            }
-        ]
-    },
-    {
         "title": "Coffee with Joshua",
         "content": "This is an example note",
         "createDate": "2022-03-30T10:09:59.162Z",

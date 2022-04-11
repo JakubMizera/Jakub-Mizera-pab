@@ -102,9 +102,10 @@ app.get('/note/:id', (req: Request, res: Response) => {
 app.put('/note/:id', (req: Request, res: Response) => {
     let findNote = notesList.find(note => note.id === req.params.id)
     if (findNote) {
-        findNote = new Note({ ...findNote, ...req.body.note })
-        // jeśli podanych w notatce tagów nie ma na liście, to automatycznie dodajemy nowe tagi do listy.
+        findNote = new Note({ ...findNote, ...req.body })
+        notesList.push(findNote)
         fs.writeFileSync(notesPath, JSON.stringify(notesList))
+         // jeśli podanych w notatce tagów nie ma na liście, to automatycznie dodajemy nowe tagi do listy.
         if(findNote.tags !== undefined) {
             for(let i = 0; i < findNote.tags.length; i++) {
                 if(!tags.includes(findNote.tags[i])){
@@ -119,16 +120,14 @@ app.put('/note/:id', (req: Request, res: Response) => {
     }
 })
 
-//usuwanie
+//usuwanie notatki
 app.delete('/note/:id', (req: Request, res: Response) => {
     try{
         notesList = notesList.filter(note => note.id !== req.params.id)
-        res.send(notesList)
         fs.writeFileSync(notesPath, JSON.stringify(notesList))
-        console.log(notesList)
     }
     catch{
-        res.send('Cannot delete note of id: ' + req.params.id)
+        res.send('Nie można usunąć notatki o id: ' + req.params.id)
     }
 })
 
@@ -168,17 +167,20 @@ app.get('/tag/:id', (req: Request, res: Response) => {
 //edytowanie tagów po id
 app.put('/tag/:id', (req: Request, res: Response) => {
     let findTag = tags.find(tag => tag.id === req.params.id)
+    console.log(findTag)
     // findTag = lista tagów.find(zwraca pierwszy element(tag) którego id jest równe id z req.params )
     if (findTag) {
-        findTag = new Tag({ ...findTag, ...req.body.tags })
+        console.log(req.body)
+        findTag = new Tag({ ...findTag, ...req.body })
+        tags.push(findTag)
         fs.writeFileSync(tagsPath, JSON.stringify(tags))
-        res.status(200);
+        res.status(200).send("Edytowano tag")
     } else {
         res.status(404).send("Nie można edytować tagu")
     }
 })
 
-//usuwanie
+//usuwanie tagu po id
 app.delete('/tag/:id', (req: Request, res: Response) => {
     let findTag = tags.findIndex(tag => tag.id === req.params.id)
     if (findTag !== -1 && findTag !== undefined) {
