@@ -27,7 +27,7 @@ class Note {
         this.content = note.content;
         this.createDate = note.createDate || new Date();
         this.tags = note.tags || undefined;
-        this.id = randomUUID()
+        this.id = note.id || randomUUID();
     }
 
 }
@@ -38,7 +38,7 @@ class Tag {
 
     constructor(tag: Tag){
         this.name = tag.name;
-        this.id = randomUUID()
+        this.id = tag.id || randomUUID()
     }
 }
 
@@ -71,13 +71,11 @@ app.post('/note', (req: Request, res: Response) => {
 
     
     // jeśli podanych w notatce tagów nie ma na liście, to automatycznie dodajemy nowe tagi do listy.
-    console.log(note.tags)
     if(note.tags !== undefined) {
         for(let i = 0; i < note.tags.length; i++) {
             if(!tags.includes(note.tags[i])){
                 let newTag = new Tag(note.tags[i])
                 //zmienna dla nowego tagu (w srodku tag wpisany w notatce)
-                console.log(newTag)
                 tags.push(newTag)
                 fs.writeFileSync(tagsPath, JSON.stringify(tags))
             }
@@ -102,8 +100,14 @@ app.get('/note/:id', (req: Request, res: Response) => {
 app.put('/note/:id', (req: Request, res: Response) => {
     let findNote = notesList.find(note => note.id === req.params.id)
     if (findNote) {
-        findNote = new Note({ ...findNote, ...req.body })
         notesList.push(findNote)
+        let findNoteIndex = notesList.findIndex(note => note.id === req.params.id)
+        if (findNoteIndex !== -1 && findNoteIndex !== undefined) {
+            notesList.splice(findNoteIndex, 1)
+            fs.writeFileSync(tagsPath, JSON.stringify(notesList))
+        }
+
+        findNote = new Note({ ...findNote, ...req.body })
         fs.writeFileSync(notesPath, JSON.stringify(notesList))
          // jeśli podanych w notatce tagów nie ma na liście, to automatycznie dodajemy nowe tagi do listy.
         if(findNote.tags !== undefined) {
@@ -140,8 +144,6 @@ app.get('/tags', (req: Request, res:Response) => {
 //dodawanie tagu
 app.post('/tag', (req: Request, res: Response) => {
     let newTag = new Tag(req.body)
-    console.log(newTag)
-    console.log(!tags.includes(newTag))
     
     if(!tags.includes(newTag)) {
         tags.push(newTag)
@@ -156,7 +158,6 @@ app.get('/tag/:id', (req: Request, res: Response) => {
     let findTag = tags.find(tag => tag.id === req.params.id)
     // findTag = lista tagów.find(zwraca pierwszy element(tag) którego id jest równe id z req.params )
     if (findTag) {
-        console.log(findTag)
         res.status(200).send(findTag)
         
     } else {
@@ -167,12 +168,16 @@ app.get('/tag/:id', (req: Request, res: Response) => {
 //edytowanie tagów po id
 app.put('/tag/:id', (req: Request, res: Response) => {
     let findTag = tags.find(tag => tag.id === req.params.id)
-    console.log(findTag)
     // findTag = lista tagów.find(zwraca pierwszy element(tag) którego id jest równe id z req.params )
     if (findTag) {
-        console.log(req.body)
         findTag = new Tag({ ...findTag, ...req.body })
         tags.push(findTag)
+        let findTagIndex = tags.findIndex(tag => tag.id === req.params.id)
+        if (findTagIndex !== -1 && findTag !== undefined) {
+            tags.splice(findTagIndex, 1)
+            fs.writeFileSync(tagsPath, JSON.stringify(tags))
+        }
+
         fs.writeFileSync(tagsPath, JSON.stringify(tags))
         res.status(200).send("Edytowano tag")
     } else {

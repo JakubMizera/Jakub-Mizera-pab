@@ -1,9 +1,5 @@
 [
     {
-        "name": "home",
-        "id": "76da02fb-b839-44f8-bf77-a737f795af32"
-    },
-    {
         "name": "chores",
         "id": "0301ae2d-268e-4c7e-b6b7-b30a3139f3e0"
     },
@@ -20,7 +16,11 @@
         "id": "3a752933-5210-4352-ac27-b8d8308d817d"
     },
     {
-        "name": "geography",
-        "id": "210c5ffa-e290-4051-a625-19fcafcf11da"
+        "name": "test",
+        "id": "d26b86fb-ede7-464c-9a18-7fa33d1d72de"
+    },
+    {
+        "name": "rrtt",
+        "id": "76da02fb-b839-44f8-bf77-a737f795af32"
     }
 ]
