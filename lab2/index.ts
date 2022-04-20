@@ -1,49 +1,15 @@
 import express from 'express';
 import e, { Request, Response } from "express";
-import { randomUUID } from 'crypto';
 import fs from 'fs';
+import Note from './classes/Note';
+import Tag from './classes/Tag';
 
 const app = express();
 app.use(express.json());
+app.listen(3000);
 
-
-
-class Note {
-    title: string;
-    content: string;
-    createDate?: Date;
-    tags?: Tag[];
-    id?: string;
-
-    // constructor(title: string, content: string, createDate?: Date, tags?: string[]){
-    //     this.title = title;
-    //     this.content = content;
-    //     this.createDate = createDate || new Date();
-    //     this.tags = tags || null;
-    //     this.id = Date.now();
-    // }
-    constructor(note: Note) {
-        this.title = note.title;
-        this.content = note.content;
-        this.createDate = note.createDate || new Date();
-        this.tags = note.tags || undefined;
-        this.id = note.id || randomUUID();
-    }
-
-}
-
-class Tag {
-    id?: string;
-    name: string;
-
-    constructor(tag: Tag){
-        this.name = tag.name;
-        this.id = tag.id || randomUUID()
-    }
-}
-
-const notesPath = './notesJSON.json';
-const tagsPath = './tagsJSON.json';
+const notesPath = './data/notesJSON.json';
+const tagsPath = './data/tagsJSON.json';
 
 var notesList: Note[] = [] ;
 fs.readFile(notesPath, (err, data) => {
@@ -196,5 +162,3 @@ app.delete('/tag/:id', (req: Request, res: Response) => {
         res.status(400).send("Nie można usunąć tagu")
     }
 })
-
-app.listen(3000);
