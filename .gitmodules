@@ -1,0 +1,3 @@
+[submodule "PAB-App"]
+	path = PAB-App
+	url = https://github.com/JakubMizera/PAB-App
